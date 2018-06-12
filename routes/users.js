@@ -4,6 +4,7 @@ const User = require("../models/user.js");
 
 router
   .route("/")
+  //   Callbacks
   //   .get((req, res, next) => {
   //     User.find({}, (err, users) => {
   //       if (err) throw err;
@@ -11,15 +12,25 @@ router
   //     });
   //     res.status(200).json({ message: "This is home router" });
   //   })
-  .get((req, res, next) => {
-    User.find({})
-      .then(users => {
-        res.json(users);
-      })
-      .catch(err => {
-        next(err);
-      });
+
+  //   Promises
+  //   .get((req, res, next) => {
+  //     User.find({})
+  //       .then(users => {
+  //         res.json(users);
+  //       })
+  //       .catch(err => {
+  //         next(err);
+  //       });
+  //   })
+
+  //   Async/Await (Promises)
+  .get(async (req, res, next) => {
+    const users = await User.find({});
+    res.json(users);
   })
+
+  //   Callbacks
   //   .post((req, res, next) => {
   //     const newuser = new User(req.body);
   //     newuser.save((err, user) => {
@@ -27,16 +38,25 @@ router
   //       res.json(user);
   //     });
   //   });
-  .post((req, res, err) => {
+
+  //   Promises
+  //   .post((req, res, err) => {
+  //     const newuser = new User(req.body);
+  //     newuser
+  //       .save()
+  //       .then(user => {
+  //         res.json(user);
+  //       })
+  //       .catch(err => {
+  //         next(err);
+  //       });
+  //   });
+
+  //   Async/Await (Promises)
+  .post(async (req, res, next) => {
     const newuser = new User(req.body);
-    newuser
-      .save()
-      .then(user => {
-        res.json(user);
-      })
-      .catch(err => {
-        next(err);
-      });
+    const user = await newuser.save();
+    res.json(user);
   });
 
 module.exports = router;
