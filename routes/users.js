@@ -72,6 +72,13 @@ router
     const newUser = req.body;
     const user = await User.findByIdAndUpdate(userId, newUser);
     res.status(200).json(user);
+  })
+  // put is for replace required fields in document, no need to replace all fields
+  .patch(async (req, res, next) => {
+    const { userId } = req.params;
+    const newUser = req.body;
+    const user = await User.findByIdAndUpdate(userId, newUser);
+    res.status(200).json(user);
   });
 
 module.exports = router;
