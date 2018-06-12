@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user.js");
-const Car = require("../model/car.js");
+const Car = require("../models/car.js");
 
 router
   .route("/")
@@ -86,10 +86,27 @@ router
   .route("/:userId/cars")
   .get(async (req, res, next) => {
     const { userId } = req.params;
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate(
+      "cars",
+      "-_id -model -seller -year -__v"
+    );
     res.status(200).json(user);
   })
   .post(async (req, res, next) => {
     const { userId } = req.params;
+
+    const newCar = new Car(req.body);
+
+    const user = await User.findById(userId);
+
+    newCar.seller = user;
+
+    await newCar.save();
+
+    user.cars.push(newCar);
+
+    await user.save();
+
+    res.status(200).json(newCar);
   });
 module.exports = router;

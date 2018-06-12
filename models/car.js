@@ -6,10 +6,10 @@ const carSchema = new Schema({
     type: String
   },
   model: {
-    type: number
+    type: String
   },
   year: {
-    type: number
+    type: Number
   },
   seller: {
     type: Schema.Types.ObjectId,
@@ -17,4 +17,4 @@ const carSchema = new Schema({
   }
 });
 
-model.export = mongoose.model("car", carSchema);
+module.exports = mongoose.model("car", carSchema);
