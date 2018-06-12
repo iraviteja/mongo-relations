@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user.js");
+const Car = require("../model/car.js");
 
 router
   .route("/")
@@ -81,4 +82,14 @@ router
     res.status(200).json(user);
   });
 
+router
+  .route("/:userId/cars")
+  .get(async (req, res, next) => {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+    res.status(200).json(user);
+  })
+  .post(async (req, res, next) => {
+    const { userId } = req.params;
+  });
 module.exports = router;
