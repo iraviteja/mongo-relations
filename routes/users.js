@@ -59,4 +59,10 @@ router
     res.json(user);
   });
 
+router.route("/:userId").get(async (req, res, next) => {
+  const { userId } = req.params;
+  const user = await User.findById(userId);
+  res.status(200).json(user);
+});
+
 module.exports = router;
