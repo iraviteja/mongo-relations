@@ -59,10 +59,19 @@ router
     res.json(user);
   });
 
-router.route("/:userId").get(async (req, res, next) => {
-  const { userId } = req.params;
-  const user = await User.findById(userId);
-  res.status(200).json(user);
-});
+router
+  .route("/:userId")
+  .get(async (req, res, next) => {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+    res.status(200).json(user);
+  })
+  // put is for replace whole document, should replace all fields
+  .put(async (req, res, next) => {
+    const { userId } = req.params;
+    const newUser = req.body;
+    const user = await User.findByIdAndUpdate(userId, newUser);
+    res.status(200).json(user);
+  });
 
 module.exports = router;
